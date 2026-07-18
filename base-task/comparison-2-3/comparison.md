@@ -41,3 +41,16 @@ In this section, I attempt to explain, why the transformer failed to beahve up t
 - Dataset Size - Transformers are known to require extensive training on notoriously big datasets for better outputs
 - CNN Downsampling - Unlike the LSTM, the transformer was fed input from after downsampling it with a `conv1D` layer due to computational cost/overhead
 - Optimization Difficulty - The transformer might have needed more attendive hyperparameter tuning
+
+## Training stability
+- The LSTM had an extremely stable training (After correctly initializing the weights with Xavier and Orthogonal inits as recommended by the paper)
+- The Transformer was extremely unstable initially, with highly fluctuating loss values. But, when the post-layer norm was replaced by pre-layer norm, the training stabilized greatly.
+- Also, the transformer was overfitting to a great extend. After constant changes to the architecuture was when I actually got a stable training curve, which lasted for a few epochs, followed by aggressive overfitting.
+
+## Runtime and Memory 
+- The transformer was computationally cumbersome. Despite reduction of the input dim by a convolution layer the O($n^{2}$) complexity was huge for the GPUs to handle
+- The LSTM had a greater training time. Because of its recursive nature, the model training took extra time on comparison to the transformer, which trained faster.
+- In terms of inference, both were equally fast/ the difference is insignificant (possibly due to input size/computational capabilities)
+
+## Conclusion 
+Attention enables Transformers to better model long-range dependencies by letting every token directly interact with every other token and enabling highly parallel computation. Conversely, LSTMs process sequences sequentially through recurrent hidden states, which makes them slower to train on long sequences and more prone to lose information over time. However, LSTMs still are a good choice for smaller data sets, resource-constrained environments and streaming or real-time applications where low memory usage and sequential processing are helpful. Transformers tend to do better than LSTMs on larger data sets and tasks with longer sequences, where the ability to model global context outweighs the higher computational and memory costs.
