@@ -1,5 +1,7 @@
 # Comparison
 
+> The file LSTM-reimplementation.ipynb uses a predefined LSTM block, the original vanilla implementation (from scratch, part of level-2) is in the /base-task/level-2 directory
+
 The transformer and the LSTM architectures were implemented with two different input and output sequence lengths initially, as a part of levels 2 and 3. To ensure fair comparison between the architectures for the Jena Climate dataset, the LSTM was re-implemented under the file "LSTM-Transformer.ipynb" with changed sequence lengths, in this directory.
 
 The following results were obtained. 
