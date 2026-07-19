@@ -41,3 +41,12 @@ $$h_t​=o_t​⊙tanh(c_t​)$$
 
 ## Aftermath/Post Processing
 The above sequence is repeated n times depending on the size of the input sequence. After that, we have the final (B, 128) tensor, which is decoded by a simple MLP, that outputs the predictions of the required output length. It is important to note that the methodology equipped in the following process is non-auto-regressive, meaning, we do not call the LSTM blocks recursively to build on it's own predictions to obtain the output sequence of the required length.
+
+
+## Training Stability
+
+The training process was initially unsatable with oscillating/nan valued val and train losses, this was fixed with proper Xavier initializations for the input to hidden weights and orthogonal initialisations for the hidden to hidden weights. Also, biases were initialized as 1. These changes had an almost immediate effect on training stability.
+
+## Sequence Length and forecasting Challenges
+
+The LSTM architecture was implemented with two different sequence sizes. 432, and 4320 timestamps. It was clearly visible that the LSTM performed significantly better in the case when it had fewer time stamps to process (0.0469 MSE vs 0.10 MSE). Also the main forecasting challenge is error accumulation. Despite evading autoregression, we still are faced with error accumulation. The one shot prediction does grow increasingly deviant from the ground truth for greater distant time stamps in the prediction horizon. 
