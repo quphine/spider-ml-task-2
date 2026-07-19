@@ -10,7 +10,7 @@ Core features implemented manually:
 - Custom CIFAR-10 Dataset Pipeline
 
 
----
+
 
 ## Implementation Summary
 
